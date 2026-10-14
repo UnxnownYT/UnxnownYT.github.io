@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>unxnown · About</title>
+<style>
+  :root {
+    --paper: #f3efe7; --ink: #161514; --muted: #8a847a; --line: #d9d2c5; --accent: #b8432a;
+    --sans: "Helvetica Neue", "Avenir Next", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+
+  /* ---------- Hero scroll animation ---------- */
+  .track { height: 640vh; position: relative; }
+  .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); z-index: 5; }
+
+  .script-wrap { position: absolute; left: 50%; top: 50%; width: min(84vw, 760px); will-change: transform; }
+  .script { width: 100%; height: auto; display: block; overflow: visible; }
+  .script path { fill: none; stroke: var(--ink); stroke-width: 15; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+  .word { position: absolute; left: 50%; top: 50%; transform: translateX(-50%); width: clamp(110px, 20vw, 200px); height: auto; overflow: visible; }
+  .word path { fill: none; stroke: var(--ink); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+
+  .rule { position: absolute; left: 50%; height: 1px; width: min(36vw, 320px); background: var(--ink); transform: translateX(-50%) scaleX(0); }
+  .tag { position: absolute; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 400; letter-spacing: -0.005em; color: var(--muted); opacity: 0; white-space: nowrap; }
+  .hint { position: absolute; bottom: 64px; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 400; letter-spacing: -0.005em; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .hint i { width: 1px; height: 40px; background: var(--muted); animation: drip 1.8s ease-in-out infinite; transform-origin: top; }
+  @keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  /* ---------- Biography ---------- */
+  .bio { max-width: 980px; margin: 0 auto; padding: 0 28px 120px; }
+  .sec { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 32px; padding: 72px 0; border-top: 1px solid var(--line); }
+  .sec:first-child { border-top: 0; padding-top: 40px; }
+  .label { font-size: 14px; font-weight: 400; letter-spacing: -0.005em; color: var(--muted); padding-top: 6px; }
+  .label b { color: var(--ink); font-weight: 400; margin-right: 10px; }
+
+  .lede { font-size: clamp(28px, 4vw, 46px); font-weight: 300; line-height: 1.18; letter-spacing: -0.02em; }
+  .lede em { font-style: normal; font-weight: 400; color: var(--accent); }
+  .body { margin-top: 28px; max-width: 58ch; font-size: 17px; line-height: 1.7; color: #3a3733; }
+  .body p + p { margin-top: 1em; }
+
+  .now { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .now li { border-top: 1px solid var(--ink); padding-top: 16px; }
+  .now h3 { font-size: 19px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .now p { font-size: 15px; line-height: 1.6; color: #4a4640; }
+  .now .credit { margin-top: 12px; font-size: 14px; font-weight: 400; letter-spacing: -0.005em; color: var(--muted); }
+  .now .credit a { color: var(--accent); text-decoration: none; font-size: 14px; }
+  .now .credit a:hover { text-decoration: underline; }
+
+  .path { list-style: none; }
+  .path li { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 20px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .path li:first-child { padding-top: 0; }
+  .path .yr { font-size: 12px; font-weight: 400; letter-spacing: .14em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .path .role { font-size: 20px; font-weight: 400; letter-spacing: -0.01em; }
+  .path .where { font-size: 14px; color: var(--muted); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tags span { border: 1px solid var(--ink); border-radius: 999px; padding: 8px 16px; font-size: 14px; }
+
+  .contact .big { font-size: clamp(26px, 3.6vw, 40px); font-weight: 300; letter-spacing: -0.02em; text-decoration: none; border-bottom: 1px solid var(--ink); }
+  .contact .big:hover { color: var(--accent); border-color: var(--accent); }
+  .links { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 28px; font-size: 14px; font-weight: 400; letter-spacing: -0.005em; }
+  .links a { text-decoration: none; color: var(--muted); }
+  .links a:hover { color: var(--ink); }
+
+  .sign { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-top: 96px; }
+  .sign svg { width: 220px; overflow: visible; }
+  .sign path { fill: none; stroke: var(--ink); stroke-width: 15; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; transition: stroke-dashoffset 3.6s cubic-bezier(.45,.05,.55,.95) .3s, opacity 0s .3s; }
+  .sign path.cross { transition-duration: .7s, 0s; transition-delay: 3.9s, 3.9s; }
+  .sign.in path { stroke-dashoffset: 0; opacity: 1; }
+  .sign button { font: inherit; font-size: 14px; font-weight: 400; letter-spacing: -0.005em; color: var(--ink); background: none; border: 1px solid var(--ink); border-radius: 999px; padding: 10px 18px; cursor: pointer; transition: background .2s, color .2s; }
+  .sign button:hover { background: var(--ink); color: var(--paper); }
+
+  .r { opacity: 0; transform: translateY(14px); transition: opacity 1.4s cubic-bezier(.25,.1,.25,1), transform 1.6s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i, 0) * 140ms); }
+  .r.in { opacity: 1; transform: none; }
+
+  @media (max-width: 720px) {
+    .sec { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 56px 0; }
+    .now { grid-template-columns: minmax(0, 1fr); }
+    .path li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .r { opacity: 1; transform: none; transition: none; } .sign path { stroke-dashoffset: 0; opacity: 1; transition: none; } }
+  @media print {
+    .track { height: auto; } .stage { position: relative; } .hint, .progress, .sign button { display: none; }
+    .r { opacity: 1; transform: none; } .sign path { stroke-dashoffset: 0; opacity: 1; } .sec { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<!--
+  TEMPLATE: edit the CONTENT object in the <script> at the bottom.
+  Everything on the page (name, bio, timeline, links) comes from it.
+-->
+<div class="progress" id="progress"></div>
+
+<div class="track" id="track">
+  <div class="stage">
+    <div class="script-wrap" id="scriptWrap">
+      <svg class="script" viewBox="20 30 750 190" role="img" aria-label="Unxnown">
+        <!-- Hand-drawn monoline "Unxnown": one continuous stroke, with the x crossed last -->
+        <path id="sig" pathLength="1" d="
+          M40 72 C50 54 76 56 78 76
+          C80 112 70 160 90 185 C105 200 135 195 148 170 C160 145 165 100 168 60
+          C168 110 165 165 175 185 C182 195 195 192 205 180
+          C212 160 216 140 220 130 C222 150 220 175 220 190
+          C222 160 235 130 255 130 C275 130 278 150 276 175 C275 190 285 195 300 182
+          C310 165 318 135 330 130 C345 128 350 150 352 165 C356 185 368 195 385 180
+          C392 160 396 140 400 130 C402 150 400 175 400 190
+          C402 160 415 130 435 130 C455 130 458 150 456 175 C455 190 465 195 478 186
+          C486 170 498 134 520 130 C500 128 488 150 490 170 C492 192 520 195 530 172
+          C538 152 532 130 518 130 C530 132 545 135 558 130
+          C556 160 558 190 572 190 C585 190 590 170 592 150 C592 175 598 192 612 190
+          C628 188 634 160 632 130 C638 135 645 136 652 132
+          C656 150 655 175 655 190 C657 160 670 130 690 130 C710 130 713 150 711 175
+          C710 192 722 196 745 180"/>
+        <path id="cross" pathLength="1" d="M380 124 L328 198"/>
+        <!-- the pen tip: starts as a dot in the centre, glides to the start, then rides the stroke -->
+        <circle id="pen" r="7.5" cx="0" cy="0" fill="#161514"/>
+      </svg>
+    </div>
+
+    <!-- Minimal monoline "Dyan": each stroke draws in turn, like a pen -->
+    <svg class="word" id="word" viewBox="-6 -6 220 96" role="img" aria-label="Dyan">
+      <path pathLength="1" d="M4 60 V0 H20 A30 30 0 0 1 20 60 H4"/>
+      <path pathLength="1" d="M64 20 L83 62"/>
+      <path pathLength="1" d="M102 20 L76 82"/>
+      <path pathLength="1" d="M150 40 A20 20 0 1 0 110 40 A20 20 0 1 0 150 40"/>
+      <path pathLength="1" d="M150 20 V60"/>
+      <path pathLength="1" d="M170 20 V60"/>
+      <path pathLength="1" d="M170 38 C170 26 178 20 188 20 C198 20 206 26 206 38 V60"/>
+    </svg>
+    <div class="rule" id="rule"></div>
+    <p class="tag" id="tag"></p>
+    <div class="hint" id="hint">Scroll<i></i></div>
+  </div>
+</div>
+
+<main class="bio" id="bio"></main>
+
+<script>
+  /* ============================================================
+     CONTENT: replace everything in [brackets] with your own details.
+     ============================================================ */
+  const CONTENT = {
+    tagline: "My biography!",
+    name: "Dyan",
+    role: "a student",
+    city: "Perth, WA",
+    bio: [
+      "Hey! I'm Dyan, a student in Perth, Western Australia. I've made two apps: WallX (now discontinued) and Gaze, which I co-founded.",
+      "I was born on 19th June and started learning to code at 13. I built WallX, but lost the code after someone permanently deleted it from my laptop. I'm in high school right now and I'm planning to do the IGCSE (International General Certificate of Secondary Education) in Year 10. My parents have been a huge help and have given me lots of support with my learning."
+    ],
+    now: [
+      { title: "WallX", text: "A completely free app that lets you use live wallpapers on both your home screen and lock screen.",
+        credit: { before: "Now discontinued" } },
+      { title: "Gaze",  text: "A Face ID app for Mac that uses the camera in your display to unlock your Mac with your face.",
+        credit: { before: "Co-founded with", label: "@OwenCope", url: "https://github.com/owencope" } },
+      { title: "What I'm into", text: "Graphic design, editing and aviation." }
+    ],
+    path: [
+      { year: "[2024 – now]",  role: "[Role / title]", where: "[Company or place]" },
+      { year: "[2021 – 2024]", role: "[Role / title]", where: "[Company or place]" },
+      { year: "[2018 – 2021]", role: "[Role / title]", where: "[Company or place]" },
+      { year: "[2018]",        role: "[Studied / started]", where: "[School or place]" }
+    ],
+    cares: ["The aviation industry", "Coding", "Xcode"],
+    email: "unxnownyt2020@gmail.com",
+    links: [
+      { label: "X",      url: "https://x.com/u_nxnown" },
+      { label: "GitHub",  url: "https://github.com/UnxnownYT" },
+      { label: "YouTube", url: "https://youtube.com/@u_xnown" },
+      { label: "Threads", url: "https://www.threads.com/@u_nxnown" }
+    ]
+  };
+
+  /* ---------- Render biography ---------- */
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const SIG = document.getElementById('sig').getAttribute('d');
+  const CROSS = document.getElementById('cross').getAttribute('d');
+  document.getElementById('tag').textContent = CONTENT.tagline;
+  document.title = `${CONTENT.name.replace(/[\[\]]/g, '')} · About`;
+
+  document.getElementById('bio').innerHTML = `
+    <section class="sec">
+      <div class="label r"><b>01</b>Hello</div>
+      <div>
+        <h1 class="lede r" style="--i:1">I'm <em>${esc(CONTENT.name)}</em>, ${esc(CONTENT.role)} based in ${esc(CONTENT.city)}.</h1>
+        <div class="body">${CONTENT.bio.map((p, i) => `<p class="r" style="--i:${i + 2}">${esc(p)}</p>`).join('')}</div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="label r"><b>02</b>Now</div>
+      <ul class="now">${CONTENT.now.map((n, i) => `<li class="r" style="--i:${i + 1}"><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p>${n.credit ? `<p class="credit">${esc(n.credit.before)}${n.credit.url ? ` <a href="${esc(n.credit.url)}" target="_blank" rel="noopener">${esc(n.credit.label)} ↗</a>` : ''}</p>` : ''}</li>`).join('')}</ul>
+    </section>
+
+    <section class="sec">
+      <div class="label r"><b>03</b>Cares</div>
+      <div class="tags">${CONTENT.cares.map((c, i) => `<span class="r" style="--i:${i}">${esc(c)}</span>`).join('')}</div>
+    </section>
+
+    <section class="sec contact">
+      <div class="label r"><b>04</b>Say hi</div>
+      <div>
+        <a class="big r" style="--i:1" href="mailto:${esc(CONTENT.email)}">${esc(CONTENT.email)}</a>
+        <div class="links r" style="--i:2">${CONTENT.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join('')}</div>
+        <div class="sign" id="sign">
+          <svg viewBox="20 30 750 190" aria-hidden="true"><path pathLength="1" d="${SIG}"/><path class="cross" pathLength="1" d="${CROSS}"/></svg>
+          <button id="replay">Back to top</button>
+        </div>
+      </div>
+    </section>`;
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .2 });
+  document.querySelectorAll('.r, #sign').forEach(el => io.observe(el));
+  document.getElementById('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ---------- Hero scroll animation ---------- */
+  const $ = id => document.getElementById(id);
+  const track = $('track'), sig = $('sig'), cross = $('cross'), pen = $('pen'), scriptWrap = $('scriptWrap');
+  const word = $('word'), strokes = [...word.querySelectorAll('path')];
+  const rule = $('rule'), tag = $('tag'), hint = $('hint'), bar = $('progress');
+
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const ease = t => -(Math.cos(Math.PI * t) - 1) / 2;   // soft sine in-out
+  const out = t => Math.sin(t * Math.PI / 2);           // soft sine out
+  const sigLen = sig.getTotalLength();
+
+  function render(p) {
+    const vh = innerHeight / 100;
+    hint.style.opacity = 1 - seg(p, 0, .05);
+
+    // 1. a dot rests in the centre, glides to where the pen starts, then writes Unxnown in one stroke
+    const start = sig.getPointAtLength(0);
+    const glide = ease(seg(p, .04, .15));
+    const write = ease(seg(p, .15, .44));
+    let px = 395 + (start.x - 395) * glide, py = 125 + (start.y - 125) * glide;
+    if (write > 0) { const tip = sig.getPointAtLength(sigLen * write); px = tip.x; py = tip.y; }
+    pen.setAttribute('cx', px); pen.setAttribute('cy', py);
+    pen.style.opacity = write >= 1 ? 0 : 1;
+    sig.style.opacity = write > 0 ? 1 : 0;
+    sig.style.strokeDashoffset = 1 - write;
+    const x = ease(seg(p, .44, .5));   // x is crossed only after the word is written
+    cross.style.opacity = x > 0 ? 1 : 0;
+    cross.style.strokeDashoffset = 1 - x;
+
+    // 2. it lifts and settles higher up
+    const lift = ease(seg(p, .48, .64));
+    scriptWrap.style.transform = `translate(-50%, calc(-50% - ${lift * 14 * vh}px)) scale(${1 - lift * .22})`;
+
+    // 3. Dyan draws itself stroke by stroke
+    const wordTop = 9 * vh;
+    word.style.top = `calc(50% + ${wordTop}px)`;
+    strokes.forEach((el, i) => {
+      const t = ease(seg(p, .62 + i * .03, .72 + i * .03));
+      el.style.opacity = t > 0 ? 1 : 0;
+      el.style.strokeDashoffset = 1 - t;
+    });
+
+    // 4. hairline and tagline
+    const h = word.getBoundingClientRect().height;
+    rule.style.top = `calc(50% + ${wordTop + h + 28}px)`;
+    rule.style.transform = `translateX(-50%) scaleX(${ease(seg(p, .88, .96))})`;
+    const tg = ease(seg(p, .91, 1));
+    tag.style.top = `calc(50% + ${wordTop + h + 48}px)`;
+    tag.style.opacity = tg;
+    tag.style.transform = `translate(-50%, ${(1 - tg) * 8}px)`;
+  }
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The animation eases toward the scroll position instead of snapping to it,
+  // so each scroll step glides into the next.
+  let target = 0, current = 0, running = false;
+  const readScroll = () => {
+    const max = track.offsetHeight - innerHeight;
+    target = reduced ? 1 : clamp(-track.getBoundingClientRect().top / max);
+  };
+  function frame() {
+    current += (target - current) * 0.075;
+    if (Math.abs(target - current) < 0.0004) current = target;
+    render(current);
+    bar.style.transform = `scaleX(${clamp(scrollY / (document.documentElement.scrollHeight - innerHeight))})`;
+    running = current !== target;
+    if (running) requestAnimationFrame(frame);
+  }
+  function update() { readScroll(); if (!running) { running = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', update);
+  matchMedia('print').addEventListener('change', e => e.matches && render(1));
+  readScroll(); current = target; render(current); update();
+</script>
+</body>
+</html>
