@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#f3efe7"/>
+  <!-- the cursive U from the Unxnown signature, scaled to fit -->
+  <g transform="translate(5 4) scale(0.31)">
+    <path d="M40 72 C50 54 76 56 78 76 C80 112 70 160 90 185 C105 200 135 195 148 170 C160 145 165 100 168 60 C168 110 165 165 175 185 C182 195 195 192 205 180"
+          fill="none" stroke="#161514" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <circle cx="52" cy="56" r="3" fill="#b8432a"/>
+</svg>
