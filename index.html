@@ -66,6 +66,29 @@
   .now .credit a { color: var(--accent); text-decoration: none; font-size: 14px; }
   .now .credit a:hover { text-decoration: underline; }
 
+  /* project titles link out, with a little preview of the site on hover */
+  .now li { position: relative; }
+  .now h3 a { text-decoration: none; }
+  .now h3 .arrow { display: inline-block; color: var(--muted); font-size: .8em; transition: transform .4s cubic-bezier(.22,.61,.36,1), color .3s; }
+  .now h3 a:hover .arrow { transform: translate(2px, -2px); color: var(--accent); }
+  .pop {
+    position: absolute; left: 0; bottom: calc(100% + 14px); width: min(300px, 100%); z-index: 10;
+    background: #fbf9f4; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 22px 44px -22px rgba(22, 21, 20, .35);
+    opacity: 0; transform: translateY(8px) scale(.97); transform-origin: bottom left; pointer-events: none;
+    transition: opacity .4s ease, transform .55s cubic-bezier(.22,.61,.36,1);
+  }
+  .now li:has(h3 a:hover) .pop, .now li:has(h3 a:focus-visible) .pop { opacity: 1; transform: none; }
+  .pop .bar { display: flex; align-items: center; gap: 5px; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .pop .bar i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .pop .bar span { margin-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pop .pv { padding: 18px 18px 20px; }
+  .pop .pv b { display: block; font-size: 19px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; }
+  .pop .pv em { display: block; font-style: normal; color: var(--accent); font-size: 14px; margin-top: 4px; }
+  .pop .pv p { margin-top: 10px; font-size: 13px; line-height: 1.55; color: #4a4640; }
+  .pop .pv small { display: block; margin-top: 14px; font-size: 12px; color: var(--muted); }
+  @media (hover: none) { .pop { display: none; } }
+
   .path { list-style: none; }
   .path li { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 20px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
   .path li:first-child { padding-top: 0; }
@@ -170,10 +193,18 @@
       "I was born on 19th June and started learning to code at 13. I built WallX, but lost the code after someone permanently deleted it from my laptop. I'm in high school right now and I'm planning to do the IGCSE (International General Certificate of Secondary Education) in Year 10. My parents have been a huge help and have given me lots of support with my learning."
     ],
     now: [
-      { title: "WallX", text: "A completely free app that lets you use live wallpapers on both your home screen and lock screen.",
-        credit: { before: "Now discontinued" } },
-      { title: "Gaze",  text: "A Face ID app for Mac that uses the camera in your display to unlock your Mac with your face.",
-        credit: { before: "Co-founded with", label: "@OwenCope", url: "https://github.com/owencope" } },
+      { title: "WallX", url: "https://trywallx.netlify.app",
+        text: "A completely free app that lets you use live wallpapers on both your desktop and lock screen.",
+        credit: { before: "Now discontinued" },
+        preview: { host: "trywallx.netlify.app", title: "Wallpapers that actually move.", line: "",
+                   text: "Turn the videos you love into living wallpapers that flow across your Mac's desktop and lock screen.",
+                   meta: "Free · macOS 13 Ventura or later" } },
+      { title: "Gaze", url: "https://www.gazeunlock.com",
+        text: "A Face ID app for Mac that uses the camera in your display to unlock your Mac with your face.",
+        credit: { before: "Co-founded with", label: "@OwenCope", url: "https://github.com/owencope" },
+        preview: { host: "gazeunlock.com", title: "Your face. Your Mac. Unlocked.", line: "",
+                   text: "Gaze uses your Mac's camera to recognise you at the lock screen, then signs you in.",
+                   meta: "Free and open source · macOS 26 or later" } },
       { title: "What I'm into", text: "Graphic design, editing and aviation." }
     ],
     path: [
@@ -182,8 +213,8 @@
       { year: "[2018 – 2021]", role: "[Role / title]", where: "[Company or place]" },
       { year: "[2018]",        role: "[Studied / started]", where: "[School or place]" }
     ],
-    cares: ["The aviation industry", "Coding", "Xcode"],
-    email: "unxnownyt2020@gmail.com",
+    interests: ["The aviation industry", "Coding", "Xcode"],
+    email: "hi@unxnown.is-a.dev",
     links: [
       { label: "X",      url: "https://x.com/u_nxnown" },
       { label: "GitHub",  url: "https://github.com/UnxnownYT" },
@@ -210,12 +241,21 @@
 
     <section class="sec">
       <div class="label r"><b>02</b>Now</div>
-      <ul class="now">${CONTENT.now.map((n, i) => `<li class="r" style="--i:${i + 1}"><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p>${n.credit ? `<p class="credit">${esc(n.credit.before)}${n.credit.url ? ` <a href="${esc(n.credit.url)}" target="_blank" rel="noopener">${esc(n.credit.label)} ↗</a>` : ''}</p>` : ''}</li>`).join('')}</ul>
+      <ul class="now">${CONTENT.now.map((n, i) => `<li class="r" style="--i:${i + 1}"><h3>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)} <span class="arrow">↗</span></a>` : esc(n.title)}</h3><p>${esc(n.text)}</p>${n.credit ? `<p class="credit">${esc(n.credit.before)}${n.credit.url ? ` <a href="${esc(n.credit.url)}" target="_blank" rel="noopener">${esc(n.credit.label)} ↗</a>` : ''}</p>` : ''}${n.preview ? `
+        <div class="pop" aria-hidden="true">
+          <div class="bar"><i></i><i></i><i></i><span>${esc(n.preview.host)}</span></div>
+          <div class="pv">
+            <b>${esc(n.preview.title)}</b>
+            ${n.preview.line ? `<em>${esc(n.preview.line)}</em>` : ''}
+            <p>${esc(n.preview.text)}</p>
+            <small>${esc(n.preview.meta)}</small>
+          </div>
+        </div>` : ''}</li>`).join('')}</ul>
     </section>
 
     <section class="sec">
-      <div class="label r"><b>03</b>Cares</div>
-      <div class="tags">${CONTENT.cares.map((c, i) => `<span class="r" style="--i:${i}">${esc(c)}</span>`).join('')}</div>
+      <div class="label r"><b>03</b>Interests</div>
+      <div class="tags">${CONTENT.interests.map((c, i) => `<span class="r" style="--i:${i}">${esc(c)}</span>`).join('')}</div>
     </section>
 
     <section class="sec contact">
