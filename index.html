@@ -4,15 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>unxnown · About</title>
-<meta name="description" content="Dyan, a student in Perth, WA, building apps like WallX and Gaze.">
-<meta name="theme-color" content="#b8432a">
+<meta name="description" content="Hey! I'm Dyan, a student in Perth, WA making apps called WallX & Gaze">
+<meta name="theme-color" content="#f3efe7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151412" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<script>
+  // apply a saved light/dark choice before the page paints, so there's no flash
+  try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 <!-- Link previews (Discord, iMessage, X, etc.) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://unxnown.is-a.dev/">
 <meta property="og:site_name" content="Unxnown">
-<meta property="og:title" content="Unxnown · Dyan">
+<meta property="og:title" content="Unxnown · dyan">
 <meta property="og:description" content="A student in Perth, WA, building apps like WallX and Gaze.">
 <meta property="og:image" content="https://unxnown.is-a.dev/og.png">
 <meta property="og:image:width" content="1200">
@@ -22,8 +28,51 @@
 <style>
   :root {
     --paper: #f3efe7; --ink: #161514; --muted: #8a847a; --line: #d9d2c5; --accent: #b8432a;
+    --body: #3a3733; --soft: #4a4640; --card: #fbf9f4; --shadow: rgba(22, 21, 20, .35);
     --sans: "Helvetica Neue", "Avenir Next", Helvetica, Arial, sans-serif;
   }
+  /* Dark mode: follows your Mac/phone setting, unless the toggle overrides it */
+  :root[data-theme="dark"] {
+    --paper: #151412; --ink: #eeeae2; --muted: #8f897f; --line: #2f2c28; --accent: #e2714f;
+    --body: #cdc7bc; --soft: #b5afa5; --card: #1e1c1a; --shadow: rgba(0, 0, 0, .65);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #151412; --ink: #eeeae2; --muted: #8f897f; --line: #2f2c28; --accent: #e2714f;
+      --body: #cdc7bc; --soft: #b5afa5; --card: #1e1c1a; --shadow: rgba(0, 0, 0, .65);
+    }
+  }
+  /* gentle crossfade when the theme changes */
+  .theming, .theming * { transition: background-color .7s ease, color .7s ease, border-color .7s ease, stroke .7s ease, fill .7s ease !important; }
+  #pen { fill: var(--ink); }
+
+  .theme-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 6; width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer;
+    display: grid; place-items: center; transition: border-color .3s, transform .5s cubic-bezier(.22,.61,.36,1);
+  }
+  .theme-toggle:hover { border-color: var(--ink); transform: rotate(180deg); }
+  .theme-toggle svg { width: 16px; height: 16px; }
+  @media print { .theme-toggle { display: none; } }
+
+  /* "Made by Dyan" corner signature */
+  .made { position: fixed; left: 22px; bottom: 18px; z-index: 6; height: 30px; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
+  .made.on { opacity: 1; }
+  .made svg { height: 100%; width: auto; display: block; overflow: visible; }
+  .made path {
+    fill: none; stroke: var(--ink); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0;
+    transition: stroke-dashoffset 0s .6s, opacity 0s .6s;   /* resets quietly after fading out */
+  }
+  .made .m3, .made .m4 { stroke: var(--accent); }
+  .made.on path { stroke-dashoffset: 0; opacity: 1; }
+  .made.on .m1 { transition: stroke-dashoffset 1.3s cubic-bezier(.45,.05,.55,.95) .2s, opacity 0s .2s; }
+  .made.on .m2 { transition: stroke-dashoffset 1s cubic-bezier(.45,.05,.55,.95) 1.6s, opacity 0s 1.6s; }
+  .made.on .m3 { transition: stroke-dashoffset .9s cubic-bezier(.45,.05,.55,.95) 2.75s, opacity 0s 2.75s; }
+  .made.on .m4 { transition: stroke-dashoffset 1.3s cubic-bezier(.45,.05,.55,.95) 3.7s, opacity 0s 3.7s; }
+  @media (max-width: 720px) { .made { height: 24px; left: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .made.on path { transition: none; } }
+  @media print { .made { display: none; } }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
@@ -55,39 +104,49 @@
 
   .lede { font-size: clamp(28px, 4vw, 46px); font-weight: 300; line-height: 1.18; letter-spacing: -0.02em; }
   .lede em { font-style: normal; font-weight: 400; color: var(--accent); }
-  .body { margin-top: 28px; max-width: 58ch; font-size: 17px; line-height: 1.7; color: #3a3733; }
+  /* cursive "dyan" in the opening line: writes itself once the line scrolls into view */
+  .name-sig { display: inline-block; height: 1.7em; vertical-align: -0.52em; margin: 0 .04em; }
+  .name-sig svg { height: 100%; width: auto; overflow: visible; }
+  .name-sig path {
+    fill: none; stroke: var(--accent); stroke-width: 7.5; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0;
+  }
+  .lede.in .name-sig path { stroke-dashoffset: 0; opacity: 1; }
+  .lede.in .name-sig .d1 { transition: stroke-dashoffset 1.3s cubic-bezier(.45,.05,.55,.95) .7s, opacity 0s .7s; }
+  .lede.in .name-sig .d2 { transition: stroke-dashoffset 2s cubic-bezier(.45,.05,.55,.95) 2.05s, opacity 0s 2.05s; }
+  .body { margin-top: 28px; max-width: 58ch; font-size: 17px; line-height: 1.7; color: var(--body); }
   .body p + p { margin-top: 1em; }
 
   .now { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
   .now li { border-top: 1px solid var(--ink); padding-top: 16px; }
   .now h3 { font-size: 19px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 8px; }
-  .now p { font-size: 15px; line-height: 1.6; color: #4a4640; }
+  .now p { font-size: 15px; line-height: 1.6; color: var(--soft); }
   .now .credit { margin-top: 12px; font-size: 14px; font-weight: 400; letter-spacing: -0.005em; color: var(--muted); }
   .now .credit a { color: var(--accent); text-decoration: none; font-size: 14px; }
   .now .credit a:hover { text-decoration: underline; }
 
-  /* project titles link out, with a little preview of the site on hover */
+  /* project titles link out; hovering shows a small window of the site that follows the cursor */
   .now li { position: relative; }
   .now h3 a { text-decoration: none; }
   .now h3 .arrow { display: inline-block; color: var(--muted); font-size: .8em; transition: transform .4s cubic-bezier(.22,.61,.36,1), color .3s; }
   .now h3 a:hover .arrow { transform: translate(2px, -2px); color: var(--accent); }
-  .pop {
-    position: absolute; left: 0; bottom: calc(100% + 14px); width: min(300px, 100%); z-index: 10;
-    background: #fbf9f4; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-    box-shadow: 0 22px 44px -22px rgba(22, 21, 20, .35);
-    opacity: 0; transform: translateY(8px) scale(.97); transform-origin: bottom left; pointer-events: none;
-    transition: opacity .4s ease, transform .55s cubic-bezier(.22,.61,.36,1);
+
+  .peek {
+    position: fixed; left: 0; top: 0; width: 220px; z-index: 20; pointer-events: none; transform-origin: 50% 100%;
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    box-shadow: 0 30px 60px -28px var(--shadow);
+    opacity: 0; will-change: transform, opacity;
   }
-  .now li:has(h3 a:hover) .pop, .now li:has(h3 a:focus-visible) .pop { opacity: 1; transform: none; }
-  .pop .bar { display: flex; align-items: center; gap: 5px; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
-  .pop .bar i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
-  .pop .bar span { margin-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pop .pv { padding: 18px 18px 20px; }
-  .pop .pv b { display: block; font-size: 19px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; }
-  .pop .pv em { display: block; font-style: normal; color: var(--accent); font-size: 14px; margin-top: 4px; }
-  .pop .pv p { margin-top: 10px; font-size: 13px; line-height: 1.55; color: #4a4640; }
-  .pop .pv small { display: block; margin-top: 14px; font-size: 12px; color: var(--muted); }
-  @media (hover: none) { .pop { display: none; } }
+  .peek .bar { display: flex; align-items: center; gap: 4px; padding: 6px 9px; border-bottom: 1px solid var(--line); font-size: 10px; color: var(--muted); }
+  .peek .bar i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); flex: none; }
+  .peek .bar span { margin-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .peek .view { position: relative; width: 220px; height: 138px; overflow: hidden; background: var(--paper); }
+  .peek .view > * { position: absolute; inset: 0; opacity: 0; transition: opacity .35s ease; }
+  .peek .view > .on { opacity: 1; }
+  .peek img { width: 100%; height: 100%; inset: auto; left: 0; top: 0; object-fit: cover; object-position: top; }
+  /* live site rendered at desktop size, then scaled down to fit */
+  .peek iframe { width: 1280px; height: 800px; border: 0; transform: scale(.172); transform-origin: 0 0; inset: auto; left: 0; top: 0; }
+  @media (hover: none) { .peek { display: none; } }
 
   .path { list-style: none; }
   .path li { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 20px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
@@ -121,10 +180,10 @@
     .now { grid-template-columns: minmax(0, 1fr); }
     .path li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   }
-  @media (prefers-reduced-motion: reduce) { .r { opacity: 1; transform: none; transition: none; } .sign path { stroke-dashoffset: 0; opacity: 1; transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .r { opacity: 1; transform: none; transition: none; } .sign path, .name-sig path { stroke-dashoffset: 0; opacity: 1; transition: none; } }
   @media print {
     .track { height: auto; } .stage { position: relative; } .hint, .progress, .sign button { display: none; }
-    .r { opacity: 1; transform: none; } .sign path { stroke-dashoffset: 0; opacity: 1; } .sec { break-inside: avoid; }
+    .r { opacity: 1; transform: none; } .sign path, .name-sig path { stroke-dashoffset: 0; opacity: 1; } .sec { break-inside: avoid; }
   }
 </style>
 </head>
@@ -134,6 +193,10 @@
   Everything on the page (name, bio, timeline, links) comes from it.
 -->
 <div class="progress" id="progress"></div>
+<button class="theme-toggle" id="themeToggle" aria-label="Switch between light and dark mode" title="Light / dark">
+  <!-- half-filled circle: works as both a sun and a moon -->
+  <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5 A6.5 6.5 0 0 1 8 14.5 Z" fill="currentColor"/></svg>
+</button>
 
 <div class="track" id="track">
   <div class="stage">
@@ -157,7 +220,7 @@
           C710 192 722 196 745 180"/>
         <path id="cross" pathLength="1" d="M380 124 L328 198"/>
         <!-- the pen tip: starts as a dot in the centre, glides to the start, then rides the stroke -->
-        <circle id="pen" r="7.5" cx="0" cy="0" fill="#161514"/>
+        <circle id="pen" r="7.5" cx="0" cy="0"/>
       </svg>
     </div>
 
@@ -179,32 +242,39 @@
 
 <main class="bio" id="bio"></main>
 
+<!-- "Made by Dyan" in the corner: writes itself once you're past the opening animation -->
+<div class="made" id="made" role="img" aria-label="Made by Dyan">
+  <svg viewBox="10 15 665 150" aria-hidden="true">
+    <path class="m1" pathLength="1" d="M24 118 C30 96 36 64 42 42 C46 66 50 92 54 112 C58 88 64 62 70 42 C74 70 76 96 80 112 C82 120 90 120 96 110 C100 98 108 86 118 84 C104 78 90 92 92 106 C94 120 112 120 120 102 C122 94 122 86 124 82 C122 98 120 114 128 118 C134 120 140 112 144 104 C148 94 152 86 160 86 C146 80 132 92 134 106 C136 120 154 120 162 102 C168 78 172 44 170 28 C168 60 164 98 168 114 C171 122 180 120 186 110 C194 104 204 96 206 90 C208 82 196 80 190 90 C184 102 188 118 200 118 C208 118 214 112 218 106"/>
+    <path class="m2" pathLength="1" d="M240 106 C248 90 258 60 256 34 C254 26 246 30 246 44 C246 70 246 96 246 116 C248 96 262 82 272 90 C280 98 270 120 254 116 C262 114 270 108 280 104 C282 96 283 88 284 84 C286 100 290 118 304 118 C316 118 324 100 326 82 C326 110 326 140 316 152 C306 164 290 156 296 142 C302 130 320 124 336 118"/>
+    <path class="m3" pathLength="1" d="M384 28 C382 60 380 95 376 118 C372 128 358 126 360 116 C362 106 380 108 392 116 C420 130 460 112 464 74 C468 36 436 18 400 24 C380 28 366 40 370 52"/>
+    <path class="m4" pathLength="1" d="M480 84 C482 100 486 118 500 118 C512 118 520 100 522 82 C522 110 522 140 512 152 C502 164 486 156 492 142 C498 130 520 122 540 112 C550 100 562 82 576 84 C560 78 542 92 544 108 C546 122 566 122 576 104 C578 96 578 86 580 82 C578 98 576 116 586 118 C594 120 600 110 604 100 C608 92 610 86 612 82 C612 96 612 108 612 118 C614 98 624 82 636 82 C648 82 650 96 648 108 C646 118 654 122 666 112"/>
+  </svg>
+</div>
+
 <script>
   /* ============================================================
      CONTENT: replace everything in [brackets] with your own details.
      ============================================================ */
   const CONTENT = {
     tagline: "My biography!",
-    name: "Dyan",
+    name: "dyan",
     role: "a student",
     city: "Perth, WA",
     bio: [
-      "Hey! I'm Dyan, a student in Perth, Western Australia. I've made two apps: WallX (now discontinued) and Gaze, which I co-founded.",
+      "Hey! I'm dyan, a student in Perth, Western Australia. I've made two apps: WallX (now discontinued) and Gaze, which I co-founded.",
       "I was born on 19th June and started learning to code at 13. I built WallX, but lost the code after someone permanently deleted it from my laptop. I'm in high school right now and I'm planning to do the IGCSE (International General Certificate of Secondary Education) in Year 10. My parents have been a huge help and have given me lots of support with my learning."
     ],
     now: [
       { title: "WallX", url: "https://trywallx.netlify.app",
         text: "A completely free app that lets you use live wallpapers on both your desktop and lock screen.",
         credit: { before: "Now discontinued" },
-        preview: { host: "trywallx.netlify.app", title: "Wallpapers that actually move.", line: "",
-                   text: "Turn the videos you love into living wallpapers that flow across your Mac's desktop and lock screen.",
-                   meta: "Free · macOS 13 Ventura or later" } },
+        // shot: a screenshot of the site. crop: how much of the top to hide (e.g. the browser's toolbar), in %.
+        preview: { host: "trywallx.netlify.app", shot: "images/820b69ed.png", crop: 9 } },
       { title: "Gaze", url: "https://www.gazeunlock.com",
         text: "A Face ID app for Mac that uses the camera in your display to unlock your Mac with your face.",
         credit: { before: "Co-founded with", label: "@OwenCope", url: "https://github.com/owencope" },
-        preview: { host: "gazeunlock.com", title: "Your face. Your Mac. Unlocked.", line: "",
-                   text: "Gaze uses your Mac's camera to recognise you at the lock screen, then signs you in.",
-                   meta: "Free and open source · macOS 26 or later" } },
+        preview: { host: "gazeunlock.com", shot: "images/a53a43df.png", crop: 9 } },
       { title: "What I'm into", text: "Graphic design, editing and aviation." }
     ],
     path: [
@@ -213,7 +283,7 @@
       { year: "[2018 – 2021]", role: "[Role / title]", where: "[Company or place]" },
       { year: "[2018]",        role: "[Studied / started]", where: "[School or place]" }
     ],
-    interests: ["The aviation industry", "Coding", "Xcode"],
+    interests: ["The aviation industry", "Coding", "Making macOS apps", "Xcode", "Visual Studio Code", "Video editing"],
     email: "hi@unxnown.is-a.dev",
     links: [
       { label: "X",      url: "https://x.com/u_nxnown" },
@@ -234,23 +304,18 @@
     <section class="sec">
       <div class="label r"><b>01</b>Hello</div>
       <div>
-        <h1 class="lede r" style="--i:1">I'm <em>${esc(CONTENT.name)}</em>, ${esc(CONTENT.role)} based in ${esc(CONTENT.city)}.</h1>
+        <h1 class="lede r" style="--i:1">I'm <span class="name-sig" role="img" aria-label="${esc(CONTENT.name)}"><svg viewBox="66 15 268 150" aria-hidden="true">
+          <!-- hand-drawn cursive "dyan": the d, then "yan" in one joined stroke -->
+          <path class="d1" pathLength="1" d="M110 86 C94 78 76 92 78 108 C80 122 100 122 110 104 C116 80 122 40 120 26 C118 60 112 100 116 114 C119 122 128 120 134 110"/>
+          <path class="d2" pathLength="1" d="M140 84 C142 100 146 118 160 118 C172 118 180 100 182 82 C182 110 182 140 172 152 C162 164 146 156 152 142 C158 130 180 122 200 112 C210 100 222 82 236 84 C220 78 202 92 204 108 C206 122 226 122 236 104 C238 96 238 86 240 82 C238 98 236 116 246 118 C254 120 260 110 264 100 C268 92 270 86 272 82 C272 96 272 108 272 118 C274 98 284 82 296 82 C308 82 310 96 308 108 C306 118 314 122 326 112"/>
+        </svg></span>, ${esc(CONTENT.role)} based in ${esc(CONTENT.city)}.</h1>
         <div class="body">${CONTENT.bio.map((p, i) => `<p class="r" style="--i:${i + 2}">${esc(p)}</p>`).join('')}</div>
       </div>
     </section>
 
     <section class="sec">
       <div class="label r"><b>02</b>Now</div>
-      <ul class="now">${CONTENT.now.map((n, i) => `<li class="r" style="--i:${i + 1}"><h3>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)} <span class="arrow">↗</span></a>` : esc(n.title)}</h3><p>${esc(n.text)}</p>${n.credit ? `<p class="credit">${esc(n.credit.before)}${n.credit.url ? ` <a href="${esc(n.credit.url)}" target="_blank" rel="noopener">${esc(n.credit.label)} ↗</a>` : ''}</p>` : ''}${n.preview ? `
-        <div class="pop" aria-hidden="true">
-          <div class="bar"><i></i><i></i><i></i><span>${esc(n.preview.host)}</span></div>
-          <div class="pv">
-            <b>${esc(n.preview.title)}</b>
-            ${n.preview.line ? `<em>${esc(n.preview.line)}</em>` : ''}
-            <p>${esc(n.preview.text)}</p>
-            <small>${esc(n.preview.meta)}</small>
-          </div>
-        </div>` : ''}</li>`).join('')}</ul>
+      <ul class="now">${CONTENT.now.map((n, i) => `<li class="r" style="--i:${i + 1}"><h3>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener"${n.preview ? ` data-peek="${i}"` : ''}>${esc(n.title)} <span class="arrow">↗</span></a>` : esc(n.title)}</h3><p>${esc(n.text)}</p>${n.credit ? `<p class="credit">${esc(n.credit.before)}${n.credit.url ? ` <a href="${esc(n.credit.url)}" target="_blank" rel="noopener">${esc(n.credit.label)} ↗</a>` : ''}</p>` : ''}</li>`).join('')}</ul>
     </section>
 
     <section class="sec">
@@ -273,6 +338,81 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .2 });
   document.querySelectorAll('.r, #sign').forEach(el => io.observe(el));
   document.getElementById('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ---------- Site peek: a small window that eases after the cursor ---------- */
+  (() => {
+    if (!matchMedia('(hover: hover)').matches) return;
+    const peek = document.createElement('div');
+    peek.className = 'peek'; peek.setAttribute('aria-hidden', 'true');
+    peek.innerHTML = '<div class="bar"><i></i><i></i><i></i><span></span></div><div class="view"></div>';
+    document.body.appendChild(peek);
+    const host = peek.querySelector('.bar span'), view = peek.querySelector('.view');
+    const views = {};   // one image or live frame per project, created on first hover
+
+    const mouse = { x: 0, y: 0 }, pos = { x: 0, y: 0 };
+    let show = 0, shown = 0, tilt = 0, running = false;
+
+    function viewFor(i) {
+      if (views[i]) return views[i];
+      const n = CONTENT.now[i];
+      let el;
+      if (n.preview.shot) {
+        el = new Image(); el.src = n.preview.shot; el.alt = '';
+        // hide the browser toolbar at the top of the screenshot
+        const c = n.preview.crop || 0;
+        el.style.top = `-${c}%`; el.style.height = `${100 + c * 1.6}%`;
+      }
+      else { el = document.createElement('iframe'); el.src = n.url; el.tabIndex = -1; el.setAttribute('loading', 'lazy'); }
+      view.appendChild(el);
+      return views[i] = el;
+    }
+
+    function tick() {
+      pos.x += (mouse.x - pos.x) * .14;
+      pos.y += (mouse.y - pos.y) * .14;
+      shown += (show - shown) * .16;
+      tilt += (clamp((mouse.x - pos.x) * .06, -6, 6) - tilt) * .12;   // leans gently in the direction it's moving
+      const w = peek.offsetWidth, h = peek.offsetHeight, gap = 22;
+      // sit just above the cursor; drop below it if there's no room at the top of the screen
+      const above = pos.y - h - gap > 8;
+      const x = clamp(pos.x - w / 2, 8, innerWidth - w - 8);
+      const y = above ? pos.y - h - gap : pos.y + gap;
+      peek.style.transformOrigin = above ? '50% 100%' : '50% 0%';
+      peek.style.opacity = shown;
+      peek.style.transform =
+        `translate(${x}px, ${y}px) translateY(${(1 - shown) * (above ? 10 : -10)}px) scale(${.82 + shown * .18}) rotate(${tilt}deg)`;
+      running = shown > .002 || show;
+      if (running) requestAnimationFrame(tick);
+    }
+    const start = () => { if (!running) { running = true; requestAnimationFrame(tick); } };
+
+    addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+    document.querySelectorAll('[data-peek]').forEach(a => {
+      a.addEventListener('mouseenter', e => {
+        const i = +a.dataset.peek;
+        host.textContent = CONTENT.now[i].preview.host;
+        Object.values(views).forEach(v => v.classList.remove('on'));
+        viewFor(i).classList.add('on');
+        if (shown < .05) { pos.x = mouse.x = e.clientX; pos.y = mouse.y = e.clientY; }
+        show = 1; start();
+      });
+      a.addEventListener('mouseleave', () => { show = 0; start(); });
+    });
+  })();
+
+  /* ---------- Light / dark toggle ---------- */
+  const root = document.documentElement;
+  const systemDark = matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : systemDark.matches;
+  const crossfade = () => { root.classList.add('theming'); clearTimeout(crossfade.t); crossfade.t = setTimeout(() => root.classList.remove('theming'), 800); };
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    crossfade();
+    const next = isDark() ? 'light' : 'dark';
+    // picking the same as your device setting goes back to following the device
+    if ((next === 'dark') === systemDark.matches) { delete root.dataset.theme; try { localStorage.removeItem('theme'); } catch (e) {} }
+    else { root.dataset.theme = next; try { localStorage.setItem('theme', next); } catch (e) {} }
+  });
+  systemDark.addEventListener('change', crossfade);
 
   /* ---------- Hero scroll animation ---------- */
   const $ = id => document.getElementById(id);
@@ -345,6 +485,11 @@
   }
   function update() { readScroll(); if (!running) { running = true; requestAnimationFrame(frame); } }
   addEventListener('scroll', update, { passive: true });
+  // show the corner signature once the opening animation has finished
+  const made = document.getElementById('made');
+  const toggleMade = () => made.classList.toggle('on', track.getBoundingClientRect().bottom < innerHeight * .6);
+  addEventListener('scroll', toggleMade, { passive: true });
+  toggleMade();
   addEventListener('resize', update);
   matchMedia('print').addEventListener('change', e => e.matches && render(1));
   readScroll(); current = target; render(current); update();
