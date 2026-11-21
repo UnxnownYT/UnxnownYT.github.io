@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liquix · Join the waitlist</title>
+<meta name="description" content="Liquix is an upcoming Chromium-based web browser for Mac, built with SwiftUI and C++. Join the waitlist to hear when it's ready.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<script>
+  // same light/dark choice as the main site
+  try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://unxnown.is-a.dev/liquix/">
+<meta property="og:site_name" content="Unxnown">
+<meta property="og:title" content="Liquix · Join the waitlist">
+<meta property="og:description" content="An upcoming Chromium-based web browser for Mac, built with SwiftUI and C++.">
+<meta property="og:image" content="https://unxnown.is-a.dev/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #18181b; --muted: #71717a; --soft: #52525b; --faint: #a1a1aa;
+    --ring: rgba(228, 228, 231, .9); --field: #fafafa; --pill: #f4f4f5; --pill-hover: #e4e4e7; --btn: #18181b; --btn-fg: #fafafa; --err: #dc2626;
+    --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --bg: #09090b; --fg: #fafafa; --muted: #a1a1aa; --soft: #a1a1aa; --faint: #71717a;
+    --ring: rgba(63, 63, 70, .8); --field: #18181b; --pill: #27272a; --pill-hover: #3f3f46; --btn: #fafafa; --btn-fg: #09090b; --err: #f87171;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #09090b; --fg: #fafafa; --muted: #a1a1aa; --soft: #a1a1aa; --faint: #71717a;
+      --ring: rgba(63, 63, 70, .8); --field: #18181b; --pill: #27272a; --pill-hover: #3f3f46; --btn: #fafafa; --btn-fg: #09090b; --err: #f87171;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  .page { max-width: 640px; margin: 0 auto; padding: 80px 16px 96px; min-height: 100vh; display: flex; flex-direction: column; }
+  main { flex: 1; }
+
+  .rise { opacity: 0; filter: blur(4px); transform: translateY(20px); }
+  .ready .rise { opacity: 1; filter: none; transform: none;
+    transition: opacity .7s ease, filter .7s ease, transform .9s cubic-bezier(.22, 1, .36, 1); transition-delay: calc(var(--i, 0) * 120ms + 150ms); }
+
+  .back { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 14px; margin-bottom: 64px; transition: color .2s; }
+  .back:hover { color: var(--fg); }
+  .back svg { width: 14px; height: 14px; transition: transform .3s cubic-bezier(.22, 1, .36, 1); }
+  .back:hover svg { transform: translateX(-2px); }
+
+  .badge { display: inline-block; font-size: 13px; color: var(--soft); background: var(--pill); padding: 2px 10px; border-radius: 999px; margin-bottom: 16px; }
+  h1 { font-size: 40px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
+  .lede { color: var(--soft); margin-top: 14px; max-width: 46ch; }
+
+  .points { list-style: none; margin-top: 40px; display: grid; gap: 10px; }
+  .points li { display: flex; gap: 10px; color: var(--soft); }
+  .points li::before { content: ""; flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--faint); margin-top: .65em; }
+
+  /* --- waitlist form --- */
+  .join { margin-top: 48px; }
+  .join h2 { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 14px; }
+  form { display: flex; gap: 8px; }
+  input[type="email"] {
+    flex: 1; min-width: 0; font: inherit; color: var(--fg); background: var(--field); border: 0; border-radius: 12px;
+    padding: 10px 14px; box-shadow: inset 0 0 0 1px var(--ring); outline: none; transition: box-shadow .2s ease;
+  }
+  input[type="email"]::placeholder { color: var(--faint); }
+  input[type="email"]:focus { box-shadow: inset 0 0 0 1px var(--fg); }
+  button.go {
+    font: inherit; font-weight: 500; color: var(--btn-fg); background: var(--btn); border: 0; border-radius: 12px; padding: 10px 18px;
+    cursor: pointer; white-space: nowrap; transition: opacity .2s ease, transform .15s ease;
+  }
+  button.go:hover { opacity: .88; }
+  button.go:active { transform: scale(.98); }
+  button.go[disabled] { opacity: .6; cursor: default; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .fine { margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .msg { margin-top: 10px; font-size: 13px; color: var(--err); min-height: 1.2em; }
+
+  .done { display: none; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--ring); }
+  .done svg { width: 22px; height: 22px; flex: none; }
+  .done path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .done b { font-weight: 500; }
+  .done p { color: var(--soft); font-size: 14px; }
+  .joined form, .joined .fine, .joined .msg { display: none; }
+  .joined .done { display: flex; animation: pop .5s cubic-bezier(.22, 1, .36, 1); }
+  .joined .done path { transition: stroke-dashoffset .5s ease .2s; stroke-dashoffset: 0; }
+  @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.98); filter: blur(3px); } }
+
+  footer { margin-top: 96px; padding-top: 16px; border-top: 1px solid var(--ring); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+
+  @media (max-width: 480px) { form { flex-direction: column; } h1 { font-size: 34px; } }
+  @media (prefers-reduced-motion: reduce) { .rise { opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <main>
+    <a class="back rise" style="--i:0" href="/"><svg viewBox="0 0 15 15" fill="none"><path d="M9 3.5 5 7.5l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Dyan</a>
+
+    <section class="rise" style="--i:1">
+      <span class="badge">Coming soon</span>
+      <h1>Liquix</h1>
+      <p class="lede">An upcoming Chromium-based web browser for Mac, built with SwiftUI and C++.</p>
+    </section>
+
+    <ul class="points rise" style="--i:2">
+      <li>Native Mac interface, written in SwiftUI</li>
+      <li>Powered by Chromium, so your sites just work</li>
+      <li>Made by a student in Perth, WA</li>
+    </ul>
+
+    <section class="join rise" style="--i:3" id="join">
+      <h2>Join the waitlist</h2>
+      <form id="form" novalidate>
+        <input type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email" required aria-label="Email address">
+        <!-- bots fill this hidden box in; real people never see it -->
+        <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="go" type="submit" id="go">Join waitlist</button>
+      </form>
+      <p class="fine">I'll only email you about Liquix, like when it's ready to try. No spam.</p>
+      <p class="msg" id="msg" role="alert"></p>
+      <div class="done" role="status">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <div><b>You're on the list!</b><p>I'll let you know when Liquix is ready.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rise" style="--i:4"><span>© <span id="yr"></span> Dyan.</span><a href="/">unxnown.is-a.dev</a></footer>
+</div>
+
+<script>
+  /* Signups are emailed to this address by FormSubmit (formsubmit.co).
+     After you activate it, FormSubmit sends you a random code: paste it here instead of the email
+     so your address isn't visible in the page source. */
+  const WAITLIST_INBOX = "hi@unxnown.is-a.dev";
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('ready')));
+
+  const join = document.getElementById('join'), form = document.getElementById('form');
+  const email = document.getElementById('email'), go = document.getElementById('go'), msg = document.getElementById('msg');
+  try { if (localStorage.getItem('liquix-joined')) join.classList.add('joined'); } catch (e) {}
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    msg.textContent = '';
+    if (!email.value || !email.checkValidity()) { msg.textContent = 'Please enter a valid email address.'; email.focus(); return; }
+    if (form._honey.value) return;   // a bot filled in the hidden box
+
+    go.disabled = true; go.textContent = 'Joining…';
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${WAITLIST_INBOX}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          email: email.value,
+          _subject: 'New Liquix waitlist signup',
+          _template: 'table',
+          _url: location.href
+        })
+      });
+      const data = await res.json();
+      // FormSubmit sends success as the text "true"/"false", so check it exactly
+      if (String(data.success) !== 'true') throw new Error(data.message || 'Something went wrong.');
+      join.classList.add('joined');
+      try { localStorage.setItem('liquix-joined', '1'); } catch (e) {}
+    } catch (err) {
+      msg.textContent = "Couldn't join right now. Please try again in a moment.";
+      go.disabled = false; go.textContent = 'Join waitlist';
+    }
+  });
+</script>
+</body>
+</html>
