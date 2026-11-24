@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Liquix · Join the waitlist</title>
-<meta name="description" content="Liquix is an upcoming Chromium-based web browser for Mac, built with SwiftUI and C++. Join the waitlist to hear when it's ready.">
+<meta name="description" content="Liquix is a minimal Chromium browser for Mac, built with SwiftUI and Liquid Glass by Dyan and Owen Cope. Join the waitlist to hear when it is ready.">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
@@ -12,16 +12,18 @@
   // same light/dark choice as the main site
   try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/liquix/icon.png">
+<link rel="apple-touch-icon" href="/liquix/icon.png">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://unxnown.is-a.dev/liquix/">
 <meta property="og:site_name" content="Unxnown">
 <meta property="og:title" content="Liquix · Join the waitlist">
-<meta property="og:description" content="An upcoming Chromium-based web browser for Mac, built with SwiftUI and C++.">
-<meta property="og:image" content="https://unxnown.is-a.dev/og.png">
+<meta property="og:description" content="A minimal Chromium browser for Mac, built with SwiftUI and Liquid Glass. Join the waitlist.">
+<meta property="og:image" content="https://unxnown.is-a.dev/liquix/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://unxnown.is-a.dev/liquix/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <style>
   :root {
@@ -55,10 +57,23 @@
   .back svg { width: 14px; height: 14px; transition: transform .3s cubic-bezier(.22, 1, .36, 1); }
   .back:hover svg { transform: translateX(-2px); }
 
+  .logo { display: block; width: 72px; height: 72px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 0 0 1px var(--ring), 0 12px 30px -16px rgba(80, 110, 200, .45); }
   .badge { display: inline-block; font-size: 13px; color: var(--soft); background: var(--pill); padding: 2px 10px; border-radius: 999px; margin-bottom: 16px; }
   h1 { font-size: 40px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
   .lede { color: var(--soft); margin-top: 14px; max-width: 46ch; }
 
+  .block { margin-top: 64px; }
+  .block h2 { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 16px; }
+  .feats { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
+  .feats b { display: block; font-weight: 500; }
+  .feats span { color: var(--soft); font-size: 14px; }
+  .facts { display: grid; }
+  .facts div { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid var(--ring); }
+  .facts div:last-child { border-bottom: 1px solid var(--ring); }
+  .facts dt { color: var(--muted); }
+  .facts a { text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+  .facts a:hover { text-decoration-color: var(--fg); }
+  @media (max-width: 480px) { .feats { grid-template-columns: minmax(0, 1fr); } .facts div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
   .points { list-style: none; margin-top: 40px; display: grid; gap: 10px; }
   .points li { display: flex; gap: 10px; color: var(--soft); }
   .points li::before { content: ""; flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--faint); margin-top: .65em; }
@@ -106,16 +121,23 @@
     <a class="back rise" style="--i:0" href="/"><svg viewBox="0 0 15 15" fill="none"><path d="M9 3.5 5 7.5l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Dyan</a>
 
     <section class="rise" style="--i:1">
+      <img class="logo" src="icon.png" alt="Liquix logo" width="72" height="72" onerror="this.remove()">
       <span class="badge">Coming soon</span>
       <h1>Liquix</h1>
-      <p class="lede">An upcoming Chromium-based web browser for Mac, built with SwiftUI and C++.</p>
+      <p class="lede">A minimal Chromium browser for Mac, built with SwiftUI and Liquid Glass. It looks and feels like a native macOS 26 app, while every website runs on the same engine as Chrome.</p>
     </section>
 
-    <ul class="points rise" style="--i:2">
-      <li>Native Mac interface, written in SwiftUI</li>
-      <li>Powered by Chromium, so your sites just work</li>
-      <li>Made by a student in Perth, WA</li>
-    </ul>
+    <section class="block rise" style="--i:2">
+      <h2>What's inside</h2>
+      <ul class="feats">
+        <li><b>Liquid Glass tab bar</b><span>Split view, drag tabs out into new windows, and a ⌃⇥ tab switcher.</span></li>
+        <li><b>Spotlight-style search</b><span>Press ⌘T to search or jump to a site.</span></li>
+        <li><b>Start page</b><span>A clock, the weather and your own backgrounds.</span></li>
+        <li><b>Built-in ad blocker</b><span>Uses uBlock Origin filter lists, with nothing extra to install.</span></li>
+        <li><b>History, downloads and bookmarks</b><span>All built in and stored on your Mac.</span></li>
+        <li><b>Make it yours</b><span>Customise shortcuts, animations, window glass, tint and corner rounding.</span></li>
+      </ul>
+    </section>
 
     <section class="join rise" style="--i:3" id="join">
       <h2>Join the waitlist</h2>
@@ -125,16 +147,26 @@
         <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="go" type="submit" id="go">Join waitlist</button>
       </form>
-      <p class="fine">I'll only email you about Liquix, like when it's ready to try. No spam.</p>
+      <p class="fine">We'll only email you about Liquix, like when it's ready to try. No spam.</p>
       <p class="msg" id="msg" role="alert"></p>
       <div class="done" role="status">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-        <div><b>You're on the list!</b><p>I'll let you know when Liquix is ready.</p></div>
+        <div><b>You're on the list!</b><p>We'll let you know when Liquix is ready.</p></div>
       </div>
+    </section>
+
+    <section class="block rise" style="--i:4">
+      <h2>Details</h2>
+      <dl class="facts">
+        <div><dt>Made by</dt><dd><a href="/">Dyan</a> &amp; <a href="https://github.com/owencope" target="_blank" rel="noopener">Owen Cope</a></dd></div>
+        <div><dt>Public release</dt><dd>To be announced. People on the waitlist hear first.</dd></div>
+        <div><dt>Requires</dt><dd>macOS 26 or later on an Apple silicon Mac (no Intel support)</dd></div>
+        <div><dt>Built with</dt><dd>SwiftUI, Chromium (CEF) and C++</dd></div>
+      </dl>
     </section>
   </main>
 
-  <footer class="rise" style="--i:4"><span>© <span id="yr"></span> Dyan.</span><a href="/">unxnown.is-a.dev</a></footer>
+  <footer class="rise" style="--i:5"><span>© <span id="yr"></span> Dyan.</span><a href="/">unxnown.is-a.dev</a></footer>
 </div>
 
 <script>
